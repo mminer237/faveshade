@@ -9,7 +9,7 @@ url: https://faveshade.com
 themeColor: "#8308E0"
 
 googleFonts:
-  - Nunito
+  - Nunito:400,700
   - Comfortaa
 defaults:
   -
