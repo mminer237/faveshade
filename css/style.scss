@@ -60,10 +60,22 @@ section, article, details {
 	margin: 15px auto;
 	padding: 10px;
 }
+section, article, details, .split > div {
+	border-radius: 6px;
+}
 .split {
 	display: flex;
 	> div {
+		background-color: #292929;
+		margin: 0 4px;
 		flex: 1 1 0;
+		padding: 5px 8px 8px
+	}
+	> :first-child {
+		margin-left: 0 !important;
+	}
+	> :last-child {
+		margin-right: 0 !important;
 	}
 }
 .big {
