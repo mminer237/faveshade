@@ -72,17 +72,12 @@ section, article, details {
 $color-picker-size: 75px;
 $color-picker-radius: 30px;
 $color-picker-border-radius: 3px;
-input[type="color"] {
-	border: none;
-	padding: 0;
-	height: $color-picker-size;
-	width: $color-picker-size;
+.pickr button {
+	height: $color-picker-size !important;
+	width: $color-picker-size !important;
 	clip-path: circle($color-picker-radius at center);
 }
-.color-input-border {
-	content: "";
-	display: block;
-	position: absolute;
+.pickr {
 	background-color: $border-color;
 	height: $color-picker-size;
 	width: $color-picker-size;

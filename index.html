@@ -1,7 +1,10 @@
 ---
 layout: default
 description: Trying to pick your favorite colors or your ideal color for a layout? Use FaveShade to get the perfect shade for you!
+styles:
+  - https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css
 scripts:
+  - https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js
   - /js/main.js
 ---
 
@@ -14,8 +17,7 @@ scripts:
 		</div>
 		<div>
 			<h2>Background Color</h2>
-			<div class="color-input-border"></div>
-			<input type="color" id="background-color" name="background-color" value="#353535">
+			<div class="color-picker opaque" data-default="#353535" id="background-color-picker"></div>
 		</div>
 	</div>
 	<noscript>Sorry, this site requires that JavaScript be enabled to function properly.</noscript>
