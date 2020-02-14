@@ -33,6 +33,12 @@
 		{% for font in site.googleFonts %}
 		<link href="https://fonts.googleapis.com/css?family={{ font }}&display=swap" rel="stylesheet">
 		{% endfor %}
+		{% for style in layout.styles %}
+		<link rel="stylesheet" href="{{ style }}">
+		{% endfor %}
+		{% for style in page.styles %}
+		<link rel="stylesheet" href="{{ style }}">
+		{% endfor %}
 		{% for script in layout.scripts %}
 		<script src="{{ script }}" defer></script>
 		{% endfor %}
