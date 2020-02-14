@@ -69,6 +69,25 @@ section, article, details {
 .big {
 	flex-grow: 2;
 }
+$color-picker-size: 75px;
+$color-picker-radius: 30px;
+$color-picker-border-radius: 3px;
+input[type="color"] {
+	border: none;
+	padding: 0;
+	height: $color-picker-size;
+	width: $color-picker-size;
+	clip-path: circle($color-picker-radius at center);
+}
+.color-input-border {
+	content: "";
+	display: block;
+	position: absolute;
+	background-color: $border-color;
+	height: $color-picker-size;
+	width: $color-picker-size;
+	clip-path: circle($color-picker-radius + $color-picker-border-radius at center);
+}
 h2, summary {
 	font-size: 24px;
 	font-weight: bold;
