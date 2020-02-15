@@ -7,6 +7,7 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 		theme: 'classic',
 		lockOpacity: !opacity,
 		adjustableNumbers: false,
+		default: container.dataset.default,
 
 		components: {
 			// Main components
