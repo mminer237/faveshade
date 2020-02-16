@@ -113,6 +113,12 @@ h2, summary {
 	font-weight: bold;
 	margin: 0 0 15px 0;
 }
+p {
+	margin: 0;
+	+ p {
+		padding-top: 4px;
+	}
+}
 a {
 	color: $secondary-color;
 }
