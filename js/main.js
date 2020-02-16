@@ -48,6 +48,6 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 	});
 	pickr.on('change', pickrChanged);
 	pickr.on('cancel', instance => {
-		pickrChanged(instance.getColor(), instance);
+		pickrChanged(instance.getSelectedColor(), instance);
 	});
 });
