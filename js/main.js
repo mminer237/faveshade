@@ -1,6 +1,8 @@
 "use strict"
 
+const preview = document.getElementById("preview");
 Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
+	const id = container.id;
 	const opaque = container.classList.contains("opaque");
 	const textBox = document.createElement('input');
 	textBox.pattern = `#[A-Za-z0-9]{${opaque ? 6 : 8}}`;
@@ -32,13 +34,20 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 			}
 		}
 	});
-	pickr.on('init', instance => {
-		textBox.value = pickr.getColor().toHEXA().toString();
-	});
 	textBox.addEventListener("input", (e => {
 		pickr.setColor(e.target.value);
 	}));
-	pickr.on('change', (color, instance) => {
+	let pickrChanged = (color, instance) => {
 		textBox.value = color.toHEXA().toString();
+	};
+	if (id === 'background-color-picker') {
+		pickrChanged = (color, instance) => {
+			pickrChanged.bind(this, color, instance);
+			preview.style.backgroundColor = color.toHEXA().toString();
+		}
+	}
+	pickr.on('init', instance => {
+		pickrChanged(instance.getColor().toHEXA().toString(), instance);
 	});
+	pickr.on('change', pickrChanged);
 });

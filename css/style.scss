@@ -60,16 +60,21 @@ section, article, details {
 	margin: 15px auto;
 	padding: 10px;
 }
-section, article, details, .split > div {
+section, article, details, .split > div, .subsection, #preview {
 	border-radius: 6px;
+}
+.split > div, .subsection, #preview {
+	background-color: #292929;
+	margin: 0 4px;
+	padding: 5px 8px 8px;
+}
+#preview {
+	background-color: #353535;
 }
 .split {
 	display: flex;
 	> div {
-		background-color: #292929;
-		margin: 0 4px;
 		flex: 1 1 0;
-		padding: 5px 8px 8px
 	}
 	> :first-child {
 		margin-left: 0 !important;
