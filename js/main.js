@@ -2,6 +2,9 @@
 
 Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 	const opacity = !container.classList.contains("opaque");
+	const textBox = document.createElement('input');
+	textBox.pattern = `#[A-Za-z0-9]{${opacity ? 6 : 8}}`;
+	container.insertAdjacentElement('afterend', textBox);
 	const pickr = Pickr.create({
 		el: container,
 		theme: 'classic',
@@ -27,5 +30,11 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 				save: true
 			}
 		}
+	});
+	textBox.addEventListener("input", (e => {
+		pickr.setColor(e.target.value);
+	}));
+	pickr.on('change', (color, instance) => {
+		textBox.value = color.toHEXA().toString();
 	});
 });

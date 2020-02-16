@@ -91,9 +91,14 @@ $color-picker-border-radius: 3px;
 }
 .pickr {
 	background-color: $border-color;
+	display: inline-block;
+	margin-right: 7px;
 	height: $color-picker-size;
 	width: $color-picker-size;
 	clip-path: circle($color-picker-radius + $color-picker-border-radius at center);
+}
+input {
+	width: 100px;
 }
 h2, summary {
 	font-size: 24px;
