@@ -31,6 +31,9 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 			}
 		}
 	});
+	pickr.on('init', instance => {
+		textBox.value = pickr.getColor().toHEXA().toString();
+	});
 	textBox.addEventListener("input", (e => {
 		pickr.setColor(e.target.value);
 	}));
