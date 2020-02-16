@@ -37,17 +37,14 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 	textBox.addEventListener("input", (e => {
 		pickr.setColor(e.target.value);
 	}));
-	let pickrChanged = (color, instance) => {
+	function pickrChanged(color, instance) {
 		textBox.value = color.toHEXA().toString();
-	};
-	if (id === 'background-color-picker') {
-		pickrChanged = (color, instance) => {
-			pickrChanged.bind(this, color, instance);
+		if (id === 'background-color-picker') {
 			preview.style.backgroundColor = color.toHEXA().toString();
 		}
 	}
 	pickr.on('init', instance => {
-		pickrChanged(instance.getColor().toHEXA().toString(), instance);
+		pickrChanged(instance.getColor(), instance);
 	});
 	pickr.on('change', pickrChanged);
 });
