@@ -9,12 +9,13 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 		el: container,
 		theme: 'classic',
 		lockOpacity: opaque,
+		comparison: false,
 		adjustableNumbers: false,
 		default: container.dataset.default,
 
 		components: {
 			// Main components
-			preview: false,
+			preview: true,
 			opacity: !opaque,
 			hue: true,
 
@@ -38,7 +39,6 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 		pickr.setColor(e.target.value);
 	}));
 	pickr.on('change', (color, instance) => {
-		instance.applyColor();
 		textBox.value = color.toHEXA().toString();
 	});
 });
