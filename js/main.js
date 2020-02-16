@@ -47,4 +47,7 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 		pickrChanged(instance.getColor(), instance);
 	});
 	pickr.on('change', pickrChanged);
+	pickr.on('cancel', instance => {
+		pickrChanged(instance.getColor(), instance);
+	});
 });
