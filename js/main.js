@@ -14,7 +14,7 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 
 		components: {
 			// Main components
-			preview: true,
+			preview: false,
 			opacity: !opaque,
 			hue: true,
 
@@ -23,11 +23,11 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 				hex: true,
 				rgba: true,
 				hsla: true,
-				hsva: true,
+				hsva: false,
 				cmyk: true,
-				input: true,
-				clear: true,
-				save: true
+				input: false,
+				clear: false,
+				save: false
 			}
 		}
 	});
@@ -38,6 +38,7 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 		pickr.setColor(e.target.value);
 	}));
 	pickr.on('change', (color, instance) => {
+		instance.applyColor();
 		textBox.value = color.toHEXA().toString();
 	});
 });
