@@ -1,21 +1,21 @@
 "use strict"
 
 Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
-	const opacity = !container.classList.contains("opaque");
+	const opaque = container.classList.contains("opaque");
 	const textBox = document.createElement('input');
-	textBox.pattern = `#[A-Za-z0-9]{${opacity ? 6 : 8}}`;
+	textBox.pattern = `#[A-Za-z0-9]{${opaque ? 6 : 8}}`;
 	container.insertAdjacentElement('afterend', textBox);
 	const pickr = Pickr.create({
 		el: container,
 		theme: 'classic',
-		lockOpacity: !opacity,
+		lockOpacity: opaque,
 		adjustableNumbers: false,
 		default: container.dataset.default,
 
 		components: {
 			// Main components
 			preview: true,
-			opacity: opacity,
+			opacity: !opaque,
 			hue: true,
 
 			// Input / output Options
