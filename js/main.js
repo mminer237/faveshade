@@ -81,7 +81,7 @@ function getRandomColor() {
 	let hue = Math.random();
 	hue += golden_ratio_conjugate;
 	hue %= 1;
-	return rgbToHex(...hslToRgb(hue, 0.85, 0.55));
+	return rgbToHex(...hslToRgb(hue, 0.85, 0.55 + (Math.random() - 0.5) * 0.2));
 }
 document.getElementById("new-color").addEventListener("click", e => {
 	setMainColor(getRandomColor(), true);
