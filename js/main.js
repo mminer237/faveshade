@@ -76,10 +76,11 @@ class AlternateColor extends HTMLElement {
 	constructor() {
 		super();
 		this.innerHTML = `<div class="color-border"></div><div class="color-inside"></div>`;
+		this.colorInsideElement = this.querySelector(".color-inside");
 	}
 	setColorNear(mainColor) {
 		mainColor = mainColor.substring(1);
-		return `#${mainColor}`;
+		this.colorInsideElement.style.backgroundColor = `#${mainColor}`;
 	}
 }
 customElements.define('alt-color', AlternateColor);
