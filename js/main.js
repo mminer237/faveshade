@@ -100,7 +100,7 @@ class AlternateColor extends HTMLElement {
 		for (let i = 0; i < 3; i++) {
 			const baseColor = color[i];
 			do {
-				color[i] = baseColor + (Math.random() - 0.5) * 50;
+				color[i] = baseColor + (Math.random() - 0.5) * 80;
 			} while (color[i] < 0 || color[i] > 255);
 			color[i] = Math.round(color[i]);
 		};
