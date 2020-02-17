@@ -3,7 +3,10 @@
 $primary-color: #8308E0;
 $secondary-color: #20D8E0;
 $lightish-secondary-color: hsl(183, 76%, 60%);
+$darkish-background-color: #292929;
 $background-color: #353535;
+$button-color: #444;
+$button-hover-color: #555;
 $section-color: #222;
 $text-color: white;
 $border-color: white;
@@ -36,7 +39,7 @@ header {
 		}
 	}
 }
-h1, h2, h3, h4, h5, h6, summary, footer {
+h1, h2, h3, h4, h5, h6, summary, button, footer {
 	font-family: 'Nunito', sans-serif;
 }
 h1 {
@@ -60,11 +63,11 @@ section, article, details {
 	margin: 15px auto;
 	padding: 10px;
 }
-section, article, details, .split > div, .subsection, #preview {
+section, article, details, .split > div, .subsection, button, #preview {
 	border-radius: 6px;
 }
 .split > div, .subsection, #preview {
-	background-color: #292929;
+	background-color: $darkish-background-color;
 	margin: 0 4px;
 	padding: 5px 8px 8px;
 }
@@ -98,9 +101,21 @@ section, article, details, .split > div, .subsection, #preview {
 	h2, h3, button {
 		display: inline-block;
 	}
+	button {
+		margin-left: 7px;
+	}
 }
 button {
 	cursor: pointer;
+    border: 3px $border-color solid;
+    background-color: $button-color;
+    color: $text-color;
+    padding: 2px 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
+button:hover {
+	background-color: $button-hover-color;
 }
 $color-picker-size: 75px;
 $color-picker-radius: 30px;
