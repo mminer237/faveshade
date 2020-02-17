@@ -95,7 +95,17 @@ class AlternateColor extends HTMLElement {
 		});
 	}
 	setColorNear(mainColor) {
-		this.color = mainColor;
+		let color = hexToRgb(mainColor);
+		console.log(color);
+		for (let i = 0; i < 3; i++) {
+			const baseColor = color[i];
+			do {
+				color[i] = baseColor + (Math.random() - 0.5) * 50;
+			} while (color[i] < 0 || color[i] > 255);
+			color[i] = Math.round(color[i]);
+		};
+		console.log(color);
+		this.color = rgbToHex(...color);
 		this.colorInsideElement.style.backgroundColor = this.color;
 	}
 }
