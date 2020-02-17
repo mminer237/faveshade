@@ -88,6 +88,9 @@ const alts = Array.from(document.querySelectorAll('alt-color'));
 function refreshAlternates() {
 	alts.forEach(x => x.setColorNear(mainColor));
 }
+document.getElementById("refresh-alts").addEventListener("click", e => {
+	refreshAlternates();
+});
 
 function HSVtoRGB(h, s, v) {
 	var r, g, b, i, f, p, q, t;
