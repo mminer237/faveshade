@@ -74,7 +74,11 @@ function setMainColor(color, setEditors = false) {
 }
 
 function getRandomColor() {
-	return '#FFFFFF'; // Guaranteed random
+	const golden_ratio_conjugate = 0.618033988749895;
+	let hue = Math.random();
+	hue += golden_ratio_conjugate;
+	hue %= 1;
+	return rgbToHex(...hslToRgb(hue, 0.85, 0.55));
 }
 
 class AlternateColor extends HTMLElement {
