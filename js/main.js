@@ -62,10 +62,14 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 	});
 });
 
-function setMainColor(color) {
+function setMainColor(color, setEditors = false) {
 	mainColor = color;
 	preview.style.color = color;
 	previewLogo.style.fill = color;
+	if (setEditors) {
+		pickr.setColor(color);
+		textBox.value = color;
+	}
 }
 
 function getRandomColor() {
@@ -91,6 +95,7 @@ function refreshAlternates() {
 }
 document.getElementById("refresh-alts").addEventListener("click", e => {
 	refreshAlternates();
+	setMainColor(e.target.style.backgroundColor, true);
 });
 
 function HSVtoRGB(h, s, v) {
