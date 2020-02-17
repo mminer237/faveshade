@@ -97,6 +97,9 @@ section, article, details, .split > div, .subsection, button, #preview {
 		position: absolute;
 		top: 24px;
 	}
+	> input + button {
+		left: 90px;
+	}
 	.header-with-button {
 		margin-top: 10px;
 	}
@@ -124,6 +127,12 @@ button:hover {
 }
 button:active {
 	background-color: $button-active-color;
+}
+input + button {
+	height: 34px;
+	margin-left: 5px;
+	padding: 5px;
+	vertical-align: middle;
 }
 $color-picker-size: 75px;
 $color-picker-radius: 30px;

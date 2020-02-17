@@ -13,6 +13,12 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 	textBox.pattern = `#[A-Za-z0-9]{6}([A-Za-z0-9]{${opaque ? 0 : 2}})?`;
 	textBox.maxLength = opaque ? 6 : 8;
 	container.insertAdjacentElement('afterend', textBox);
+	const copyButton = document.createElement('button');
+	copyButton.innerHTML = '<img src="/assets/content_copy_white_18x18.png" alt="Copy">';
+	copyButton.addEventListener("click", e => {
+		navigator.clipboard.writeText(textBox.value);
+	});
+	textBox.insertAdjacentElement('afterend', copyButton);
 	const pickr = Pickr.create({
 		el: container,
 		theme: 'classic',
