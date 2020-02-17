@@ -15,7 +15,7 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 		lockOpacity: opaque,
 		comparison: false,
 		adjustableNumbers: false,
-		default: container.dataset.default,
+		default: container.dataset.default || getRandomColor() + opaque ? '' : 'FF',
 
 		components: {
 			// Main components
@@ -60,4 +60,8 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 function setMainColor(color) {
 	preview.style.color = color;
 	previewLogo.style.fill = color;
+}
+
+function getRandomColor() {
+	return '#FFFFFF'; // Guaranteed random
 }
