@@ -15,7 +15,7 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 		lockOpacity: opaque,
 		comparison: false,
 		adjustableNumbers: false,
-		default: container.dataset.default || getRandomColor() + opaque ? '' : 'FF',
+		default: container.dataset.default || getRandomColor() + (opaque ? '' : 'FF'),
 
 		components: {
 			// Main components
