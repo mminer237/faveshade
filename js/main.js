@@ -60,6 +60,9 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 		refreshAlternates();
 	});
 	pickr.on('change', pickrChanged);
+	pickr.on('changestop', instance => {
+		refreshAlternates();
+	});
 	pickr.on('cancel', instance => {
 		pickrChanged(instance.getSelectedColor(), instance);
 	});
