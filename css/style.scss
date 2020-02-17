@@ -113,6 +113,7 @@ $color-picker-border-radius: 3px;
 	background-color: $border-color;
 	display: inline-block;
 	position: absolute;
+	left: 0;
 	margin-right: 7px;
 	height: $color-picker-size;
 	width: $color-picker-size;
@@ -128,9 +129,11 @@ input {
 }
 #alts-container {
 	display: flex;
+	justify-content: space-around;
 }
 alt-color {
 	cursor: pointer;
+	margin: 0 5px;
 }
 #preview {
 	background-color: #353535;
