@@ -98,7 +98,7 @@ section, article, details, .split > div, .subsection, button, #preview {
 		top: 24px;
 	}
 	> input + button {
-		left: 90px;
+		left: 95px;
 	}
 	.header-with-button {
 		margin-top: 10px;
@@ -115,7 +115,7 @@ section, article, details, .split > div, .subsection, button, #preview {
 }
 button {
 	cursor: pointer;
-    border: 3px $border-color solid;
+    border: 2px $border-color solid;
     background-color: $button-color;
     color: $text-color;
     padding: 2px 5px;
@@ -129,7 +129,8 @@ button:active {
 	background-color: $button-active-color;
 }
 input + button {
-	height: 34px;
+	box-sizing: content-box;
+	height: 18px;
 	margin-left: 5px;
 	padding: 5px;
 	vertical-align: middle;
