@@ -99,6 +99,9 @@ section, article, details, .split > div, .subsection, #preview {
 		top: 24px;
 	}
 }
+button {
+	cursor: pointer;
+}
 $color-picker-size: 75px;
 $color-picker-radius: 30px;
 $color-picker-border-radius: 3px;
