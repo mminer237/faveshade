@@ -96,12 +96,14 @@ section, article, details, .split > div, .subsection, #preview {
 $color-picker-size: 75px;
 $color-picker-radius: 30px;
 $color-picker-border-radius: 3px;
-.pickr button {
+.pickr button, .color-inside {
+	border: none;
+	padding: 0;
 	height: $color-picker-size !important;
 	width: $color-picker-size !important;
 	clip-path: circle($color-picker-radius at center);
 }
-.pickr {
+.pickr, .color-border {
 	background-color: $border-color;
 	display: inline-block;
 	margin-right: 7px;
@@ -116,6 +118,12 @@ $color-picker-border-radius: 3px;
 input {
 	vertical-align: middle;
 	width: 100px;
+}
+#alts-container {
+	display: flex;
+}
+alt-color {
+	cursor: pointer;
 }
 #preview {
 	background-color: #353535;

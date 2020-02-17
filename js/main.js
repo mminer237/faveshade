@@ -2,6 +2,9 @@
 
 const preview = document.getElementById("preview");
 const previewLogo = document.getElementById("preview-logo");
+const altsContainer = document.getElementById("alts-container");
+
+let mainColor;
 
 Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 	const id = container.id;
@@ -51,6 +54,7 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 	}
 	pickr.on('init', instance => {
 		pickrChanged(instance.getColor(), instance);
+		refreshAlternates();
 	});
 	pickr.on('change', pickrChanged);
 	pickr.on('cancel', instance => {
@@ -59,10 +63,28 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 });
 
 function setMainColor(color) {
+	mainColor = color;
 	preview.style.color = color;
 	previewLogo.style.fill = color;
 }
 
 function getRandomColor() {
 	return '#FFFFFF'; // Guaranteed random
+}
+
+class AlternateColor extends HTMLElement {
+	constructor() {
+		super();
+		this.innerHTML = `<div class="color-border"></div><div class="color-inside"></div>`;
+	}
+	setColorNear(mainColor) {
+		mainColor = mainColor.substring(1);
+		return `#${mainColor}`;
+	}
+}
+customElements.define('alt-color', AlternateColor);
+
+const alts = Array.from(document.querySelectorAll('alt-color'));
+function refreshAlternates() {
+	alts.forEach(x => x.setColorNear(mainColor));
 }
