@@ -92,6 +92,7 @@ class AlternateColor extends HTMLElement {
 		this.colorInsideElement = this.querySelector(".color-inside");
 		this.addEventListener("click", e => {
 			setMainColor(this.color, true);
+			refreshAlternates();
 		});
 	}
 	setColorNear(mainColor) {
