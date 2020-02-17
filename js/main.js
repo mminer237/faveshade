@@ -7,7 +7,8 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 	const id = container.id;
 	const opaque = container.classList.contains("opaque");
 	const textBox = document.createElement('input');
-	textBox.pattern = `#[A-Za-z0-9]{${opaque ? 6 : 8}}`;
+	textBox.pattern = `#[A-Za-z0-9]{6}[A-Za-z0-9]{${opaque ? 0 : 2}}?`;
+	textBox.maxLength = opaque ? 6 : 8;
 	container.insertAdjacentElement('afterend', textBox);
 	const pickr = Pickr.create({
 		el: container,
@@ -15,7 +16,7 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 		lockOpacity: opaque,
 		comparison: false,
 		adjustableNumbers: false,
-		default: container.dataset.default || getRandomColor() + (opaque ? '' : 'FF'),
+		default: container.dataset.default || getRandomColor(),
 
 		components: {
 			// Main components
