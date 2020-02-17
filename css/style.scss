@@ -88,6 +88,9 @@ section, article, details, .split > div, .subsection, #preview {
 }
 #main-container {
 	text-align: center;
+	h3 {
+		text-align: left;
+	}
 	> input {
 		position: absolute;
 		top: 24px;
