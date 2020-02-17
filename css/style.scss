@@ -7,6 +7,7 @@ $darkish-background-color: #292929;
 $background-color: #353535;
 $button-color: #444;
 $button-hover-color: #555;
+$button-active-color: #353535;
 $section-color: #222;
 $text-color: white;
 $border-color: white;
@@ -95,6 +96,9 @@ section, article, details, .split > div, .subsection, button, #preview {
 		position: absolute;
 		top: 24px;
 	}
+	.header-with-button {
+		margin-top: 10px;
+	}
 }
 .header-with-button {
 	text-align: left;
@@ -116,6 +120,9 @@ button {
 }
 button:hover {
 	background-color: $button-hover-color;
+}
+button:active {
+	background-color: $button-active-color;
 }
 $color-picker-size: 75px;
 $color-picker-radius: 30px;
