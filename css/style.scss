@@ -88,15 +88,15 @@ section, article, details, .split > div, .subsection, #preview {
 }
 #main-container {
 	text-align: center;
-	.alts-header {
-		text-align: left;
-		h3, button {
-			display: inline-block;
-		}
-	}
 	> input {
 		position: absolute;
 		top: 24px;
+	}
+}
+.header-with-button {
+	text-align: left;
+	h2, h3, button {
+		display: inline-block;
 	}
 }
 button {

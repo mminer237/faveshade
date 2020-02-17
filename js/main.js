@@ -80,6 +80,10 @@ function getRandomColor() {
 	hue %= 1;
 	return rgbToHex(...hslToRgb(hue, 0.85, 0.55));
 }
+document.getElementById("new-color").addEventListener("click", e => {
+	setMainColor(getRandomColor(), true);
+	refreshAlternates();
+});
 
 class AlternateColor extends HTMLElement {
 	constructor() {
