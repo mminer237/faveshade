@@ -71,9 +71,6 @@ section, article, details, .split > div, .subsection, #preview {
 .subsection {
 	margin: 5px 0;
 }
-#preview {
-	background-color: #353535;
-}
 .split {
 	display: flex;
 	> div {
@@ -112,6 +109,14 @@ $color-picker-border-radius: 3px;
 input {
 	vertical-align: middle;
 	width: 100px;
+}
+#preview {
+	background-color: #353535;
+}
+#preview-logo {
+	fill: $text-color;
+	height: 32px;
+	vertical-align: middle;
 }
 h2, summary {
 	font-size: 24px;
