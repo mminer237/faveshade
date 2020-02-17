@@ -4,7 +4,7 @@ const preview = document.getElementById("preview");
 const previewLogo = document.getElementById("preview-logo");
 const altsContainer = document.getElementById("alts-container");
 
-let mainColor;
+let mainColorPicker;
 
 Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 	const id = container.id;
@@ -40,6 +40,9 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 			}
 		}
 	});
+	if (id === 'main-color-picker') {
+		mainColorPicker = pickr;
+	}
 	textBox.addEventListener("input", (e => {
 		pickr.setColor(e.target.value);
 	}));
@@ -63,12 +66,10 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 });
 
 function setMainColor(color, setEditors = false) {
-	mainColor = color;
 	preview.style.color = color;
 	previewLogo.style.fill = color;
 	if (setEditors) {
-		pickr.setColor(color);
-		textBox.value = color;
+		mainColorPicker.setColor(color);
 	}
 }
 
@@ -81,21 +82,24 @@ class AlternateColor extends HTMLElement {
 		super();
 		this.innerHTML = `<div class="color-border"></div><div class="color-inside"></div>`;
 		this.colorInsideElement = this.querySelector(".color-inside");
+		this.addEventListener("click", e => {
+			setMainColor(this.color, true);
+		});
 	}
 	setColorNear(mainColor) {
 		mainColor = mainColor.substring(1);
-		this.colorInsideElement.style.backgroundColor = `#${mainColor}`;
+		this.color = `#${mainColor}`;
+		this.colorInsideElement.style.backgroundColor = this.color;
 	}
 }
 customElements.define('alt-color', AlternateColor);
 
 const alts = Array.from(document.querySelectorAll('alt-color'));
 function refreshAlternates() {
-	alts.forEach(x => x.setColorNear(mainColor));
+	alts.forEach(x => x.setColorNear(mainColorPicker.getColor().toHEXA().toString()));
 }
 document.getElementById("refresh-alts").addEventListener("click", e => {
 	refreshAlternates();
-	setMainColor(e.target.style.backgroundColor, true);
 });
 
 function HSVtoRGB(h, s, v) {
