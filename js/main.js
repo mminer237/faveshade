@@ -1,6 +1,8 @@
 "use strict"
 
 const preview = document.getElementById("preview");
+const previewLogo = document.getElementById("preview-logo");
+
 Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 	const id = container.id;
 	const opaque = container.classList.contains("opaque");
@@ -51,3 +53,8 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 		pickrChanged(instance.getSelectedColor(), instance);
 	});
 });
+
+function setPreviewColor(color) {
+	preview.style.color = color;
+	previewLogo.style.fill = color;
+}
