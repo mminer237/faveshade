@@ -44,6 +44,9 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 		if (id === 'background-color-picker') {
 			preview.style.backgroundColor = color.toHEXA().toString();
 		}
+		else if (id === 'main-color-picker') {
+			setMainColor(color.toHEXA().toString());
+		}
 	}
 	pickr.on('init', instance => {
 		pickrChanged(instance.getColor(), instance);
@@ -54,7 +57,7 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 	});
 });
 
-function setPreviewColor(color) {
+function setMainColor(color) {
 	preview.style.color = color;
 	previewLogo.style.fill = color;
 }
