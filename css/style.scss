@@ -106,6 +106,7 @@ $color-picker-border-radius: 3px;
 .pickr, .color-border {
 	background-color: $border-color;
 	display: inline-block;
+	position: absolute;
 	margin-right: 7px;
 	height: $color-picker-size;
 	width: $color-picker-size;
