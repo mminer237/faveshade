@@ -126,7 +126,7 @@ function hexToRgb(color) {
 	];
 }
 function rgbToHex(r, g, b) {
-	return `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
+	return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
 }
 function rgbToHsl(r, g, b) {
     r /= 255, g /= 255, b /= 255;
