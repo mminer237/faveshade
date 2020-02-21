@@ -95,6 +95,7 @@ function getRandomColor() {
 }
 document.getElementById("new-color").addEventListener("click", e => {
 	setMainColor(getRandomColor(), true);
+	AlternateColor.narrowRange();
 	refreshAlternates();
 });
 
@@ -142,6 +143,12 @@ class AlternateColor extends HTMLElement {
 			const side = difference < 0 ? 0 : 1;
 			this.range[i][side] = Math.abs(difference);
 		}
+	}
+	static narrowRange() {
+		for (let i = 0; i < 3; i++) {
+			color[i][0] /= 1.5;
+			color[i][1] /= 1.5;
+		};
 	}
 }
 customElements.define('alt-color', AlternateColor);
