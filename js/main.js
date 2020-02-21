@@ -6,77 +6,84 @@ const altsContainer = document.getElementById("alts-container");
 
 let mainColorPicker;
 
-Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
-	const id = container.id;
-	const opaque = container.classList.contains("opaque");
-	const textBox = document.createElement('input');
-	textBox.pattern = `#[A-Za-z0-9]{6}([A-Za-z0-9]{${opaque ? 0 : 2}})?`;
-	textBox.maxLength = opaque ? 6 : 8;
-	container.insertAdjacentElement('afterend', textBox);
-	const copyButton = document.createElement('button');
-	copyButton.innerHTML = '<img src="/assets/content_copy_white_18x18.png" alt="Copy">';
-	copyButton.addEventListener("click", e => {
-		navigator.clipboard.writeText(textBox.value);
-	});
-	textBox.insertAdjacentElement('afterend', copyButton);
-	const pickr = Pickr.create({
-		el: container,
-		theme: 'classic',
-		lockOpacity: opaque,
-		comparison: false,
-		adjustableNumbers: false,
-		default: container.dataset.default || getRandomColor(),
+if (!Pickr) {
+	const div = document.createElement('div');
+	div.classList.add("subsection");
+	div.innerText = "Error: Failed to load Pickr! Please loading the page again.";
+	document.querySelector('.split').insertBefore(div);
+}
+else
+	Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
+		const id = container.id;
+		const opaque = container.classList.contains("opaque");
+		const textBox = document.createElement('input');
+		textBox.pattern = `#[A-Za-z0-9]{6}([A-Za-z0-9]{${opaque ? 0 : 2}})?`;
+		textBox.maxLength = opaque ? 6 : 8;
+		container.insertAdjacentElement('afterend', textBox);
+		const copyButton = document.createElement('button');
+		copyButton.innerHTML = '<img src="/assets/content_copy_white_18x18.png" alt="Copy">';
+		copyButton.addEventListener("click", e => {
+			navigator.clipboard.writeText(textBox.value);
+		});
+		textBox.insertAdjacentElement('afterend', copyButton);
+		const pickr = Pickr.create({
+			el: container,
+			theme: 'classic',
+			lockOpacity: opaque,
+			comparison: false,
+			adjustableNumbers: false,
+			default: container.dataset.default || getRandomColor(),
 
-		components: {
-			// Main components
-			preview: true,
-			opacity: !opaque,
-			hue: true,
+			components: {
+				// Main components
+				preview: true,
+				opacity: !opaque,
+				hue: true,
 
-			// Input / output Options
-			interaction: {
-				hex: true,
-				rgba: true,
-				hsla: true,
-				hsva: false,
-				cmyk: true,
-				input: false,
-				clear: false,
-				save: false
+				// Input / output Options
+				interaction: {
+					hex: true,
+					rgba: true,
+					hsla: true,
+					hsva: false,
+					cmyk: true,
+					input: false,
+					clear: false,
+					save: false
+				}
+			}
+		});
+		if (id === 'main-color-picker') {
+			mainColorPicker = pickr;
+		}
+		textBox.addEventListener("input", (e => {
+			pickr.setColor(e.target.value);
+			if (id === 'main-color-picker') {
+				AlternateColor.resetRange();
+			}
+		}));
+		function pickrChanged(color, instance) {
+			textBox.value = color.toHEXA().toString();
+			if (id === 'background-color-picker') {
+				preview.style.backgroundColor = color.toHEXA().toString();
+			}
+			else if (id === 'main-color-picker') {
+				setMainColor(color.toHEXA().toString());
+				AlternateColor.resetRange();
 			}
 		}
+		pickr.on('init', instance => {
+			pickrChanged(instance.getColor(), instance);
+			refreshAlternates();
+		});
+		pickr.on('change', pickrChanged);
+		pickr.on('changestop', instance => {
+			refreshAlternates();
+		});
+		pickr.on('cancel', instance => {
+			pickrChanged(instance.getSelectedColor(), instance);
+		});
 	});
-	if (id === 'main-color-picker') {
-		mainColorPicker = pickr;
-	}
-	textBox.addEventListener("input", (e => {
-		pickr.setColor(e.target.value);
-		if (id === 'main-color-picker') {
-			AlternateColor.resetRange();
-		}
-	}));
-	function pickrChanged(color, instance) {
-		textBox.value = color.toHEXA().toString();
-		if (id === 'background-color-picker') {
-			preview.style.backgroundColor = color.toHEXA().toString();
-		}
-		else if (id === 'main-color-picker') {
-			setMainColor(color.toHEXA().toString());
-			AlternateColor.resetRange();
-		}
-	}
-	pickr.on('init', instance => {
-		pickrChanged(instance.getColor(), instance);
-		refreshAlternates();
-	});
-	pickr.on('change', pickrChanged);
-	pickr.on('changestop', instance => {
-		refreshAlternates();
-	});
-	pickr.on('cancel', instance => {
-		pickrChanged(instance.getSelectedColor(), instance);
-	});
-});
 
 function setMainColor(color, setEditors = false) {
 	preview.style.color = color;
