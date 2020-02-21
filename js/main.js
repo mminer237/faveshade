@@ -51,6 +51,9 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 	}
 	textBox.addEventListener("input", (e => {
 		pickr.setColor(e.target.value);
+		if (id === 'main-color-picker') {
+			AlternateColor.resetRange();
+		}
 	}));
 	function pickrChanged(color, instance) {
 		textBox.value = color.toHEXA().toString();
@@ -59,6 +62,7 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 		}
 		else if (id === 'main-color-picker') {
 			setMainColor(color.toHEXA().toString());
+			AlternateColor.resetRange();
 		}
 	}
 	pickr.on('init', instance => {
@@ -95,26 +99,44 @@ document.getElementById("new-color").addEventListener("click", e => {
 });
 
 class AlternateColor extends HTMLElement {
+	// static range; // Firefox doesn't support static fields yet
 	constructor() {
 		super();
+		this.constructor.resetRange();
 		this.innerHTML = `<div class="color-border"></div><div class="color-inside"></div>`;
 		this.colorInsideElement = this.querySelector(".color-inside");
 		this.addEventListener("click", e => {
+			this.constructor.adjustRange(mainColorPicker.getColor().toHSLA(), rgbToHsl(...hexToRgb(this.color)));
 			setMainColor(this.color, true);
 			refreshAlternates();
 		});
 	}
 	setColorNear(mainColor) {
-		let color = hexToRgb(mainColor);
+		let color = rgbToHsl(...hexToRgb(mainColor));
 		for (let i = 0; i < 3; i++) {
-			const baseColor = color[i];
-			do {
-				color[i] = baseColor + (Math.random() - 0.5) * 80;
-			} while (color[i] < 0 || color[i] > 255);
-			color[i] = Math.round(color[i]);
+			const base = color[i];
+			color[i] = (base - this.constructor.range[i][0] - 0.05 + Math.random() * (this.constructor.range[i][0] + this.constructor.range[i][1] + 0.1)) % 1;
 		};
-		this.color = rgbToHex(...color);
+		this.color = rgbToHex(...hslToRgb(...color));
 		this.colorInsideElement.style.backgroundColor = this.color;
+	}
+	static resetRange() {
+		this.range = [[1, 1], [1, 1], [1, 1]];
+	}
+	static adjustRange(oldColor, newColor) {
+		for (let i = 0; i < 3; i++) {
+			let difference = oldColor[i] - newColor[i];
+			if (i === 0 && (difference > 0.5 || difference < -0.5)) {
+				if (difference > 0) {
+					difference -= 1;
+				}
+				else {
+					difference += 1;
+				}
+			}
+			const side = difference < 0 ? 0 : 1;
+			this.range[i][side] = Math.abs(difference);
+		}
 	}
 }
 customElements.define('alt-color', AlternateColor);
