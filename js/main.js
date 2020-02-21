@@ -112,12 +112,17 @@ class AlternateColor extends HTMLElement {
 		});
 	}
 	setColorNear(mainColor) {
+		console.log(mainColor);
 		let color = rgbToHsl(...hexToRgb(mainColor));
+		console.log(color);
+		console.log(this.constructor.range);
 		for (let i = 0; i < 3; i++) {
 			const base = color[i];
 			color[i] = (base - this.constructor.range[i][0] - 0.05 + Math.random() * (this.constructor.range[i][0] + this.constructor.range[i][1] + 0.1)) % 1;
 		};
+		console.log(color);
 		this.color = rgbToHex(...hslToRgb(...color));
+		console.log(this.color);
 		this.colorInsideElement.style.backgroundColor = this.color;
 	}
 	static resetRange() {
