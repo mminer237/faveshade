@@ -47,7 +47,7 @@ else
 					hsla: true,
 					hsva: false,
 					cmyk: true,
-					input: false,
+					input: true,
 					clear: false,
 					save: false
 				}
