@@ -110,7 +110,6 @@ class AlternateColor extends HTMLElement {
 	// static range; // Firefox doesn't support static fields yet
 	constructor() {
 		super();
-		this.constructor.resetRange();
 		this.innerHTML = `<div class="color-border"></div><div class="color-inside"></div>`;
 		this.colorInsideElement = this.querySelector(".color-inside");
 		this.addEventListener("click", e => {
@@ -158,6 +157,7 @@ class AlternateColor extends HTMLElement {
 		};
 	}
 }
+AlternateColor.resetRange();
 customElements.define('alt-color', AlternateColor);
 
 const alts = Array.from(document.querySelectorAll('alt-color'));
