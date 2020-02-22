@@ -112,7 +112,8 @@ class AlternateColor extends HTMLElement {
 		this.innerHTML = `<div class="color-border"></div><div class="color-inside"></div>`;
 		this.colorInsideElement = this.querySelector(".color-inside");
 		this.addEventListener("click", e => {
-			this.constructor.adjustRange(mainColorPicker.getColor().toHSLA(), rgbToHsl(...hexToRgb(this.color)));
+			const mainColor = mainColorPicker.getColor().toHSLA();
+			this.constructor.adjustRange([mainColor[0] / 360, mainColor[1] / 100, mainColor[2] / 100], rgbToHsl(...hexToRgb(this.color)));
 			setMainColor(this.color, true);
 			refreshAlternates();
 		});
