@@ -152,8 +152,8 @@ class AlternateColor extends HTMLElement {
 	}
 	static narrowRange() {
 		for (let i = 0; i < 3; i++) {
-			color[i][0] /= 1.5;
-			color[i][1] /= 1.5;
+			this.range[i][0] /= 1.5;
+			this.range[i][1] /= 1.5;
 		};
 	}
 }
