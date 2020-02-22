@@ -102,7 +102,6 @@ function getRandomColor() {
 }
 document.getElementById("new-color").addEventListener("click", e => {
 	setMainColor(getRandomColor(), true);
-	AlternateColor.narrowRange();
 	refreshAlternates();
 });
 
@@ -165,6 +164,7 @@ function refreshAlternates() {
 	alts.forEach(x => x.setColorNear(mainColorPicker.getColor().toHEXA().toString()));
 }
 document.getElementById("refresh-alts").addEventListener("click", e => {
+	AlternateColor.narrowRange();
 	refreshAlternates();
 });
 
