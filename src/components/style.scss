@@ -1,0 +1,208 @@
+$primary-color: $theme-color;
+$secondary-color: #20D8E0;
+$lightish-secondary-color: hsl(183, 76%, 60%);
+$darkish-background-color: #292929;
+$background-color: #353535;
+$input-color: #444;
+$button-color: #444;
+$button-hover-color: #555;
+$button-active-color: #353535;
+$section-color: #222;
+$text-color: white;
+$border-color: white;
+* {
+	position: relative;
+}
+body {
+	background-color: $background-color;
+	color: $text-color;
+	display: flex;
+	flex-direction: column;
+	font-family: 'Comfortaa', sans-serif;
+	margin: 0;
+	min-height: 100vh;
+}
+header {
+	padding: 10px;
+	a {
+		text-decoration: none;
+	}
+	h1 {
+		display: inline-block;
+		font-weight: 700;
+		margin: 0;
+		padding: 10px;
+		text-shadow: 1px 2px 4px rgba(0,0,0,.7);
+		sup {
+			font-size: 25%;
+			text-shadow: 1px 2px 4px rgba(0,0,0,.4);
+		}
+	}
+}
+h1, h2, h3, h4, h5, h6, summary, button, input, footer {
+	font-family: 'Nunito', sans-serif;
+}
+h1 {
+	font-size: 50px;
+}
+.fave {
+	color: $primary-color;
+}
+.shade {
+	color: $secondary-color;
+}
+header, footer {
+	text-align: center;
+}
+main {
+	flex-grow: 1;
+}
+section, article, details {
+	background-color: $section-color;
+	max-width: 700px;
+	margin: 15px auto;
+	padding: 10px;
+}
+section, article, details, .split > div, .subsection, button, #preview {
+	border-radius: 6px;
+}
+.split > div, .subsection, #preview {
+	background-color: $darkish-background-color;
+	margin: 0 4px;
+	padding: 5px 8px 8px;
+}
+.subsection {
+	margin: 5px 0;
+}
+.split {
+	display: flex;
+	> div {
+		flex: 1 1 0;
+	}
+	> :first-child {
+		margin-left: 0 !important;
+	}
+	> :last-child {
+		margin-right: 0 !important;
+	}
+}
+.big {
+	flex-grow: 2 !important;
+}
+#main-container {
+	text-align: center;
+	> input {
+		position: absolute;
+		top: 24px;
+	}
+	> input + button {
+		left: 95px;
+	}
+	.header-with-button {
+		margin-top: 10px;
+	}
+}
+.header-with-button {
+	text-align: left;
+	h2, h3, button {
+		display: inline-block;
+	}
+	button {
+		margin-left: 7px;
+	}
+}
+button {
+	cursor: pointer;
+    border: 2px $border-color solid;
+    background-color: $button-color;
+    color: $text-color;
+    padding: 2px 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
+button:hover {
+	background-color: $button-hover-color;
+}
+button:active {
+	background-color: $button-active-color;
+}
+input + button {
+	box-sizing: content-box;
+	height: 18px;
+	margin-left: 5px;
+	padding: 5px;
+	vertical-align: middle;
+}
+$color-picker-size: 75px;
+$color-picker-radius: 30px;
+$color-picker-border-radius: 3px;
+.pickr button, .color-inside {
+	border: none;
+	padding: 0;
+	height: $color-picker-size !important;
+	width: $color-picker-size !important;
+	clip-path: circle($color-picker-radius at center);
+}
+.pickr, .color-border {
+	background-color: $border-color;
+	display: inline-block;
+	position: absolute;
+	left: 0;
+	margin-right: 7px;
+	height: $color-picker-size;
+	width: $color-picker-size;
+	clip-path: circle($color-picker-radius + $color-picker-border-radius at center);
+	vertical-align: middle;
+}
+.pcr-picker {
+	z-index: 10;
+}
+input {
+	background-color: $input-color;
+	border: none;
+	color: $text-color;
+	font-family: 'Comfortaa', sans-serif;
+	padding: 7px;
+	vertical-align: middle;
+	width: 80px;
+}
+#alts-container {
+	display: flex;
+	justify-content: space-around;
+}
+alt-color {
+	cursor: pointer;
+	margin: 0 5px;
+}
+#preview {
+	background-color: #353535;
+	padding: 8px;
+}
+#preview-logo {
+	fill: $text-color;
+	height: 32px;
+	vertical-align: middle;
+}
+h2, summary {
+	font-size: 24px;
+	font-weight: bold;
+}
+h2, h3, h4, summary {
+	margin: 0 0 15px 0;
+}
+p {
+	margin: 0;
+	+ p {
+		padding-top: 4px;
+	}
+}
+a {
+	color: $secondary-color;
+}
+a:hover {
+	color: $lightish-secondary-color;
+}
+footer {
+	background-color: $primary-color;
+	padding: 15px;
+}

@@ -1,5 +1,11 @@
-_site
-.sass-cache
-.jekyll-metadata
+node_modules
+
+# Prevent generating incompatible lock files between OSes
+package-lock.json
+
+.cache/
+public/
+dist/
+build/
+
 .vscode
-Gemfile.lock
