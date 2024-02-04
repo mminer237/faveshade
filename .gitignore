@@ -1,11 +1,4 @@
-node_modules
-
-# Prevent generating incompatible lock files between OSes
-package-lock.json
-
-.cache/
-public/
-dist/
-build/
-
+_site
 .vscode
+node_modules
+package-lock.json
