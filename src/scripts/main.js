@@ -2,10 +2,9 @@ import Pickr from '@simonwep/pickr';
 
 const preview = document.getElementById("preview");
 const previewLogo = document.getElementById("preview-logo");
-const altsContainer = document.getElementById("alts-container");
 
+const pickers = {};
 let mainColorPicker;
-
 Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 	const id = container.id;
 	const opaque = container.classList.contains("opaque");
@@ -46,13 +45,14 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 			}
 		}
 	});
+	pickers[id] = pickr;
 	if (id === 'main-color-picker') {
 		mainColorPicker = pickr;
 	}
 	textBox.addEventListener("input", (e => {
 		pickr.setColor(e.target.value);
 		if (id === 'main-color-picker') {
-			AlternateColor.resetRange();
+			AlternateColor.resetWeights();
 		}
 	}));
 	function pickrChanged(color, instance) {
@@ -62,16 +62,16 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 		}
 		else if (id === 'main-color-picker') {
 			setMainColor(color.toHEXA().toString());
-			AlternateColor.resetRange();
+			AlternateColor.resetWeights();
 		}
 	}
 	pickr.on('init', instance => {
 		pickrChanged(instance.getColor(), instance);
-		refreshAlternates();
+		refreshAlternates(id);
 	});
 	pickr.on('change', pickrChanged);
 	pickr.on('changestop', instance => {
-		refreshAlternates();
+		refreshAlternates(id);
 	});
 	pickr.on('cancel', instance => {
 		pickrChanged(instance.getSelectedColor(), instance);
@@ -93,22 +93,23 @@ function getRandomColor() {
 	hue %= 1;
 	return rgbToHex(...hslToRgb(hue, 0.85, 0.55 + (Math.random() - 0.5) * 0.2));
 }
-document.getElementById("new-color").addEventListener("click", e => {
-	setMainColor(getRandomColor(), true);
-	refreshAlternates();
-});
+Array.from(document.querySelectorAll('.color-picker')).forEach(picker => picker.addEventListener("click", e => {
+	if (picker.id === 'main-color-picker')
+		setMainColor(getRandomColor(), true);
+	refreshAlternates(picker.dataset.for);
+}));
 
 class AlternateColor extends HTMLElement {
-	// static range; // Firefox doesn't support static fields yet
+	static weights = {};
 	constructor() {
 		super();
 		this.innerHTML = `<div class="color-border"></div><div class="color-inside"></div>`;
 		this.colorInsideElement = this.querySelector(".color-inside");
 		this.addEventListener("click", e => {
 			const mainColor = mainColorPicker.getColor().toHSLA();
-			this.constructor.adjustRange([mainColor[0] / 360, mainColor[1] / 100, mainColor[2] / 100], rgbToHsl(...hexToRgb(this.color)));
+			this.constructor.addWeight([mainColor[0] / 360, mainColor[1] / 100, mainColor[2] / 100], rgbToHsl(...hexToRgb(this.color)));
 			setMainColor(this.color, true);
-			refreshAlternates();
+			refreshAlternates(this.dataset.for);
 		});
 	}
 	setColorNear(mainColor) {
@@ -125,10 +126,10 @@ class AlternateColor extends HTMLElement {
 		// console.log(this.color);
 		this.colorInsideElement.style.backgroundColor = this.color;
 	}
-	static resetRange() {
+	static resetWeights(id) {
 		this.range = [[1, 1], [1, 1], [1, 1]];
 	}
-	static adjustRange(oldColor, newColor) {
+	static addWeight(oldColor, newColor) {
 		console.log(oldColor);
 		console.log(newColor);
 		for (let i = 0; i < 3; i++) {
@@ -155,17 +156,18 @@ class AlternateColor extends HTMLElement {
 		};
 	}
 }
-AlternateColor.resetRange();
 customElements.define('alt-color', AlternateColor);
 
-const alts = Array.from(document.querySelectorAll('alt-color'));
-function refreshAlternates() {
-	alts.forEach(x => x.setColorNear(mainColorPicker.getColor().toHEXA().toString()));
+const alts = Object.groupBy(document.querySelectorAll('alt-color'), x => x.dataset.for);
+function refreshAlternates(id) {
+	alts[id]?.forEach(x => x.setColorNear(pickers[id].getColor().toHEXA().toString()));
 }
-document.getElementById("refresh-alts").addEventListener("click", e => {
-	AlternateColor.narrowRange();
-	refreshAlternates();
-});
+Array.from(document.querySelectorAll('.refresh-alts')).forEach(b =>
+	b.addEventListener("click", e => {
+		AlternateColor.narrowRange();
+		refreshAlternates(b.dataset.for);
+	})
+);
 
 function hexToRgb(color) {
 	return [

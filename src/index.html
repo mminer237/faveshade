@@ -13,20 +13,20 @@ scripts:
 		<div class="big">
 			<div class="header-with-button">
 				<h2>Color</h2>
-				<button id="new-color">Randomize</button>
+				<button class="new-color" data-for="main-color-picker">Restart</button>
 			</div>
 			<div id="main-container">
 				<div class="color-picker" id="main-color-picker"></div>
 				<div class="header-with-button">
 					<h3>Alternate Colors</h3>
-					<button id="refresh-alts">Refresh</button>
+					<button class="refresh-alts" data-for="main-color-picker">Refresh</button>
 				</div>
 				<div id="alts-container">
-					<alt-color></alt-color>
-					<alt-color></alt-color>
-					<alt-color></alt-color>
-					<alt-color></alt-color>
-					<alt-color></alt-color>
+					<alt-color data-for="main-color-picker"></alt-color>
+					<alt-color data-for="main-color-picker"></alt-color>
+					<alt-color data-for="main-color-picker"></alt-color>
+					<alt-color data-for="main-color-picker"></alt-color>
+					<alt-color data-for="main-color-picker"></alt-color>
 				</div>
 			</div>
 		</div>
