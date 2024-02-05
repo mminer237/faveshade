@@ -1,7 +1,58 @@
 import Pickr from '@simonwep/pickr';
+import betaincinv from '@stdlib/math-base-special-betaincinv';
 
 const preview = document.getElementById("preview");
 const previewLogo = document.getElementById("preview-logo");
+
+class AlternateColor extends HTMLElement {
+	static weights = {};
+	static betaShape = 10;
+	constructor() {
+		super();
+		this.innerHTML = `<div class="color-border"></div><div class="color-inside"></div>`;
+		this.colorInsideElement = this.querySelector(".color-inside");
+		this.addEventListener("click", e => {
+			this.constructor.addWeight(this.dataset.for, rgbToHsl(...hexToRgb(this.color)));
+			setPickerColor(this.dataset.for, this.color);
+			refreshAlternates(this.dataset.for);
+			this.constructor.shrinkCurve();
+		});
+	}
+	rerollColor() {
+		let color = ["h", "s", "l"].map(x => this.constructor.getNumber(this.constructor.weights[this.dataset.for][x]));
+		this.color = rgbToHex(...hslToRgb(...color));
+		this.colorInsideElement.style.backgroundColor = this.color;
+	}
+	static shrinkCurve() {
+		this.betaShape *= 1.17;
+	}
+	static getNumber(weights) {
+		let answer;
+		while (answer === undefined || answer < 0 || answer > 1) {
+			const weightIndex = Math.floor(Math.random() * (weights.length + 1)) - 1;
+			if (weightIndex === -1) {
+				return Math.random();
+			}
+			else {
+				answer = betaincinv(Math.random(), this.betaShape, this.betaShape) + weights[weightIndex] - 0.5;
+			}
+		}
+		return answer;
+	}
+	static resetWeights(id) {
+		this.weights[id] = {
+			"h": [],
+			"s": [],
+			"l": []
+		};
+	}
+	static addWeight(id, newColor) {
+		for (let i = 0; i < 3; i++) {
+			this.weights[id][["h", "s", "l"][i]].push(newColor[i]);
+		}
+	}
+}
+customElements.define('alt-color', AlternateColor);
 
 const pickers = {};
 let mainColorPicker;
@@ -49,21 +100,13 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 	if (id === 'main-color-picker') {
 		mainColorPicker = pickr;
 	}
+	AlternateColor.resetWeights(id);
 	textBox.addEventListener("input", (e => {
 		pickr.setColor(e.target.value);
-		if (id === 'main-color-picker') {
-			AlternateColor.resetWeights();
-		}
 	}));
 	function pickrChanged(color, instance) {
 		textBox.value = color.toHEXA().toString();
-		if (id === 'background-color-picker') {
-			preview.style.backgroundColor = color.toHEXA().toString();
-		}
-		else if (id === 'main-color-picker') {
-			setMainColor(color.toHEXA().toString());
-			AlternateColor.resetWeights();
-		}
+		setPickerColor(id, color.toHEXA().toString());
 	}
 	pickr.on('init', instance => {
 		pickrChanged(instance.getColor(), instance);
@@ -78,11 +121,14 @@ Array.from(document.querySelectorAll('.color-picker')).forEach(container => {
 	});
 });
 
-function setMainColor(color, setEditors = false) {
-	preview.style.color = color;
-	previewLogo.style.fill = color;
-	if (setEditors) {
-		mainColorPicker.setColor(color);
+function setPickerColor(id, color) {
+	pickers[id].setColor(color);
+	if (id === 'main-color-picker') {
+		preview.style.color = color;
+		previewLogo.style.fill = color;
+	}
+	else if (id === 'background-color-picker') {
+		preview.style.backgroundColor = color;
 	}
 }
 
@@ -93,79 +139,23 @@ function getRandomColor() {
 	hue %= 1;
 	return rgbToHex(...hslToRgb(hue, 0.85, 0.55 + (Math.random() - 0.5) * 0.2));
 }
-Array.from(document.querySelectorAll('.color-picker')).forEach(picker => picker.addEventListener("click", e => {
-	if (picker.id === 'main-color-picker')
-		setMainColor(getRandomColor(), true);
-	refreshAlternates(picker.dataset.for);
-}));
 
-class AlternateColor extends HTMLElement {
-	static weights = {};
-	constructor() {
-		super();
-		this.innerHTML = `<div class="color-border"></div><div class="color-inside"></div>`;
-		this.colorInsideElement = this.querySelector(".color-inside");
-		this.addEventListener("click", e => {
-			const mainColor = mainColorPicker.getColor().toHSLA();
-			this.constructor.addWeight([mainColor[0] / 360, mainColor[1] / 100, mainColor[2] / 100], rgbToHsl(...hexToRgb(this.color)));
-			setMainColor(this.color, true);
-			refreshAlternates(this.dataset.for);
-		});
-	}
-	setColorNear(mainColor) {
-		// console.log(mainColor);
-		let color = rgbToHsl(...hexToRgb(mainColor));
-		// console.log(color);
-		console.log(this.constructor.range);
-		for (let i = 0; i < 3; i++) {
-			const base = color[i];
-			color[i] = ((base - this.constructor.range[i][0] - 0.05 + Math.random() * (this.constructor.range[i][0] + this.constructor.range[i][1] + 0.1)) + 1) % 1;
-		};
-		// console.log(color);
-		this.color = rgbToHex(...hslToRgb(...color));
-		// console.log(this.color);
-		this.colorInsideElement.style.backgroundColor = this.color;
-	}
-	static resetWeights(id) {
-		this.range = [[1, 1], [1, 1], [1, 1]];
-	}
-	static addWeight(oldColor, newColor) {
-		console.log(oldColor);
-		console.log(newColor);
-		for (let i = 0; i < 3; i++) {
-			let difference = oldColor[i] - newColor[i];
-			if (i === 0 && (difference > 0.5 || difference < -0.5)) {
-				if (difference > 0) {
-					difference -= 1;
-				}
-				else {
-					difference += 1;
-				}
-			}
-			const side = difference < 0 ? 0 : 1;
-			console.log("i:    " + i);
-			console.log("side: " + side);
-			console.log("diff: " + difference);
-			this.range[i][side] = Math.abs(difference);
-		}
-	}
-	static narrowRange() {
-		for (let i = 0; i < 3; i++) {
-			this.range[i][0] /= 1.5;
-			this.range[i][1] /= 1.5;
-		};
-	}
-}
-customElements.define('alt-color', AlternateColor);
+Array.from(document.querySelectorAll('.new-color')).forEach(b => b.addEventListener("click", e => {
+	const id = b.dataset.for;
+	setPickerColor(id, getRandomColor());
+	AlternateColor.resetWeights(id);
+	refreshAlternates(id);
+}));
 
 const alts = Object.groupBy(document.querySelectorAll('alt-color'), x => x.dataset.for);
 function refreshAlternates(id) {
-	alts[id]?.forEach(x => x.setColorNear(pickers[id].getColor().toHEXA().toString()));
+	alts[id]?.forEach(x => x.rerollColor());
 }
 Array.from(document.querySelectorAll('.refresh-alts')).forEach(b =>
 	b.addEventListener("click", e => {
-		AlternateColor.narrowRange();
+		AlternateColor.addWeight(b.dataset.for, rgbToHsl(...hexToRgb(pickers[b.dataset.for].getColor().toHEXA().toString())));
 		refreshAlternates(b.dataset.for);
+		AlternateColor.shrinkCurve();
 	})
 );
 
